@@ -1,0 +1,332 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+        <main class="main">
+        	<div class="page-header text-center" style="background-image: url('{% static 'images/page-header-bg.jpg' %}'); background-size: cover; background-position: center center;">
+        		<div class="container">
+        			<h1 class="page-title">Digital Electronics Blog<span>Latest News & Reviews</span></h1>
+        		</div><!-- End .container -->
+        	</div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Blog</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+                <div class="container">
+                	<div class="row">
+                		<div class="col-lg-9">
+                            <article class="entry">
+                                <figure class="entry-media">
+                                    <a href="#">
+                                        <img src="{% static '/images/blog/po1.jpg' %}" alt="image desc">
+                                    </a>
+                                </figure><!-- End .entry-media -->
+
+                                <div class="entry-body">
+                                    <div class="entry-meta">
+                                        <span class="entry-author">
+                                            by <a href="#">Tech Experts</a>
+                                        </span>
+                                        <span class="meta-separator">|</span>
+                                        <a href="#">Nov 22, 2024</a>
+                                        <span class="meta-separator">|</span>
+                                        <a href="#">12 Comments</a>
+                                    </div><!-- End .entry-meta -->
+
+                                    <h2 class="entry-title">
+                                        <a href="#">Top 5 Wireless Earbuds for 2026</a>
+                                    </h2><!-- End .entry-title -->
+
+                                    <div class="entry-cats">
+                                        in <a href="#">Audio</a>,
+                                        <a href="#">Earbuds</a>
+                                    </div><!-- End .entry-cats -->
+
+                                    <div class="entry-content">
+                                        <p>Discover the latest and greatest wireless earbuds of 2026. From noise-cancelling technology to premium sound quality, we review the top models available in the market. Whether you're looking for budget-friendly options or premium audio experience.</p>
+                                        <a href="single.html" class="read-more">Continue Reading</a>
+                                    </div><!-- End .entry-content -->
+                                </div><!-- End .entry-body -->
+                            </article><!-- End .entry -->
+
+                            <article class="entry">
+                                <figure class="entry-media entry-carousel">
+                                    <a href="#">
+                                        <img src="{% static '/images/blog/pos2.jpg' %}" alt="image desc">
+                                    </a>
+                                </figure><!-- End .entry-media -->
+
+                                <div class="entry-body">
+                                    <div class="entry-meta">
+                                        <span class="entry-author">
+                                            by <a href="#">Electronics Lab</a>
+                                        </span>
+                                        <span class="meta-separator">|</span>
+                                        <a href="#">Nov 21, 2024</a>
+                                        <span class="meta-separator">|</span>
+                                        <a href="#">8 Comments</a>
+                                    </div><!-- End .entry-meta -->
+
+                                    <h2 class="entry-title">
+                                        <a href="single.html">Understanding Active Noise Cancellation Technology</a>
+                                    </h2><!-- End .entry-title -->
+
+                                    <div class="entry-cats">
+                                        in <a href="#">Technology</a>
+                                    </div><!-- End .entry-cats -->
+
+                                    <div class="entry-content">
+                                        <p>Active Noise Cancellation (ANC) has revolutionized the audio industry. Learn how this cutting-edge technology works and why it's becoming a standard feature in premium headphones and earbuds. We break down the science behind creating immersive, noise-free listening experiences.</p>
+                                        <a href="single.html" class="read-more">Continue Reading</a>
+                                    </div><!-- End .entry-content -->
+                                </div><!-- End .entry-body -->
+                            </article><!-- End .entry -->
+
+                            <article class="entry">
+                                <figure class="entry-media">
+                                    <div class="owl-carousel owl-simple owl-light owl-nav-inside" data-toggle="owl">
+                                        <a href="single.html">
+                                            <img src="{% static '/images/blog/po3.jpg' %}" alt="image desc">
+                                        </a>
+                                        <a href="single.html">
+                                            <img src="{% static '/images/blog/post-2.jpg' %}" alt="image desc">
+                                        </a>
+                                    </div><!-- End .owl-carousel -->
+                                </figure><!-- End .entry-media -->
+
+                                <div class="entry-body">
+                                    <div class="entry-meta">
+                                        <span class="entry-author">
+                                            by <a href="#">Audio Specialist</a>
+                                        </span>
+                                        <span class="meta-separator">|</span>
+                                        <a href="#">Nov 18, 2024</a>
+                                        <span class="meta-separator">|</span>
+                                        <a href="#">15 Comments</a>
+                                    </div><!-- End .entry-meta -->
+
+                                    <h2 class="entry-title">
+                                        <a href="single.html">Bluetooth 5.2: The Future of Wireless Connectivity</a>
+                                    </h2><!-- End .entry-title -->
+
+                                    <div class="entry-cats">
+                                        in <a href="#">Wireless Tech</a>,
+                                        <a href="#">Connectivity</a>
+                                    </div><!-- End .entry-cats -->
+
+                                    <div class="entry-content">
+                                        <p>Bluetooth 5.2 brings enhanced range, speed, and reliability to your wireless gadgets. Explore the latest improvements in wireless technology and how they enhance your digital device experience. From faster pairing to improved battery life, discover what's new in Bluetooth standards. </p>
+                                        <a href="single.html" class="read-more">Continue Reading</a>
+                                    </div><!-- End .entry-content -->
+                                </div><!-- End .entry-body -->
+                            </article><!-- End .entry -->
+
+                            <article class="entry">
+                                <figure class="entry-media">
+                                    <a href="single.html">
+                                        <img src="{% static '/images/blog/po4.jpg' %}" alt="image desc">
+                                    </a>
+                                </figure><!-- End .entry-media -->
+
+                                <div class="entry-body">
+                                    <div class="entry-meta">
+                                        <span class="entry-author">
+                                            by <a href="#">Digital Editor</a>
+                                        </span>
+                                        <span class="meta-separator">|</span>
+                                        <a href="#">Nov 15, 2024</a>
+                                        <span class="meta-separator">|</span>
+                                        <a href="#">10 Comments</a>
+                                    </div><!-- End .entry-meta -->
+
+                                    <h2 class="entry-title">
+                                        <a href="single.html">Best Portable Audio Accessories for On-the-Go Professionals</a>
+                                    </h2><!-- End .entry-title -->
+
+                                    <div class="entry-cats">
+                                        in <a href="#">Accessories</a>
+                                    </div><!-- End .entry-cats -->
+
+                                    <div class="entry-content">
+                                        <p>Working remotely requires reliable audio equipment. We've compiled a list of the best portable audio accessories that professionals should have in their tech arsenal. From wireless chargers to protective cases, find the perfect complement to your digital electronics setup.</p>
+                                        <a href="single.html" class="read-more">Continue Reading</a>
+                                    </div><!-- End .entry-content -->
+                                </div><!-- End .entry-body -->
+                            </article><!-- End .entry -->
+
+                            <article class="entry">
+                                <figure class="entry-media">
+                                    <a href="single.html">
+                                        <img src="{% static '/images/blog/po5.jpg' %}" alt="image desc">
+                                    </a>
+                                </figure><!-- End .entry-media -->
+
+                                <div class="entry-body">
+                                    <div class="entry-meta">
+                                        <span class="entry-author">
+                                            by <a href="#">Tech Writer</a>
+                                        </span>
+                                        <span class="meta-separator">|</span>
+                                        <a href="#">Nov 11, 2024</a>
+                                        <span class="meta-separator">|</span>
+                                        <a href="#">7 Comments</a>
+                                    </div><!-- End .entry-meta -->
+
+                                    <h2 class="entry-title">
+                                        <a href="single.html">Battery Life Comparison: Which Earbuds Last the Longest?</a>
+                                    </h2><!-- End .entry-title -->
+
+                                    <div class="entry-cats">
+                                        in <a href="#">Earbuds</a>,
+                                        <a href="#">Battery Tech</a>
+                                    </div><!-- End .entry-cats -->
+
+                                    <div class="entry-content">
+                                        <p>Battery life is crucial when choosing wireless earbuds. In this comprehensive guide, we compare the battery performance of leading earbud models and discuss factors that affect longevity. Learn tips and tricks to maximize your device's battery potential. </p>
+                                        <a href="single.html" class="read-more">Continue Reading</a>
+                                    </div><!-- End .entry-content -->
+                                </div><!-- End .entry-body -->
+                            </article><!-- End .entry -->
+
+
+                			<nav aria-label="Page navigation">
+							    <ul class="pagination">
+							        <li class="page-item disabled">
+							            <a class="page-link page-link-prev" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
+							                <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+							            </a>
+							        </li>
+							        <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+							        <li class="page-item"><a class="page-link" href="#">2</a></li>
+							        <li class="page-item">
+							            <a class="page-link page-link-next" href="#" aria-label="Next">
+							                Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+							            </a>
+							        </li>
+							    </ul>
+							</nav>
+                		</div><!-- End .col-lg-9 -->
+
+                		<aside class="col-lg-3">
+                			<div class="sidebar">
+                				<div class="widget widget-search">
+                                    <h3 class="widget-title">Search</h3><!-- End .widget-title -->
+
+                                    <form action="#">
+                                        <label for="ws" class="sr-only">Search in blog</label>
+                                        <input type="search" class="form-control" name="ws" id="ws" placeholder="Search in blog" required>
+                                        <button type="submit" class="btn"><i class="icon-search"></i><span class="sr-only">Search</span></button>
+                                    </form>
+                				</div><!-- End .widget -->
+
+                                <div class="widget widget-cats">
+                                    <h3 class="widget-title">Categories</h3><!-- End .widget-title -->
+
+                                    <ul>
+                                        <li><a href="#">Tv<span>3</span></a></li>
+                                        <li><a href="#">Camera<span>3</span></a></li>
+                                        <li><a href="#">Mobile<span>3</span></a></li>
+                                        <li><a href="#">buds<span>4</span></a></li>
+                                        <li><a href="#">Smart Watch<span>2</span></a></li>
+                                        <li><a href="#">laptops<span>2</span></a></li>
+                                    </ul>
+                                </div><!-- End .widget -->
+
+                                {% comment %} <div class="widget">
+                                    <h3 class="widget-title">Popular Posts</h3><!-- End .widget-title -->
+
+                                    <ul class="posts-list">
+                                        <li>
+                                            <figure>
+                                                <a href="#">
+                                                    <img src="{% static '/images/blog/sidebar/post-1.jpg' %}" alt="post">
+                                                </a>
+                                            </figure>
+
+                                            <div>
+                                                <span>Nov 22, 2024</span>
+                                                <h4><a href="#">Best Budget Wireless Earbuds Under $100</a></h4>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <figure>
+                                                <a href="#">
+                                                    <img src="{% static '/images/blog/sidebar/post-2.jpg' %}" alt="post">
+                                                </a>
+                                            </figure>
+
+                                            <div>
+                                                <span>Nov 19, 2024</span>
+                                                <h4><a href="#">How to Choose the Right Audio Equipment</a></h4>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <figure>
+                                                <a href="#">
+                                                    <img src="{% static '/images/blog/sidebar/post-3.jpg' %}" alt="post">
+                                                </a>
+                                            </figure>
+
+                                            <div>
+                                                <span>Nov 12, 2024</span>
+                                                <h4><a href="#">Latest Trends in Wireless Technology</a></h4>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <figure>
+                                                <a href="#">
+                                                    <img src="{% static '/images/blog/sidebar/post-4.jpg' %}" alt="post">
+                                                </a>
+                                            </figure>
+
+                                            <div>
+                                                <span>Nov 25, 2024</span>
+                                                <h4><a href="#">Complete Guide to Bluetooth Pairing</a></h4>
+                                            </div>
+                                        </li>
+                                    </ul><!-- End .posts-list -->
+                                </div><!-- End .widget --> {% endcomment %}
+
+                                <div class="widget widget-banner-sidebar">
+                                    <div class="banner-sidebar-title">ad box 280 x 280</div><!-- End .ad-title -->
+                                    
+                                    <div class="banner-sidebar banner-overlay">
+                                        <a href="#">
+                                            <img src="{% static '/images/blog/sidebar/ban.jpg' %}" alt="banner">
+                                        </a>
+                                    </div><!-- End .banner-ad -->
+                                </div><!-- End .widget -->
+
+                                <div class="widget">
+                                    <h3 class="widget-title">Browse Tags</h3><!-- End .widget-title -->
+
+                                    <div class="tagcloud">
+                                        <a href="#"></a>
+                                        <a href="#">Tv</a>
+                                        <a href="#">Camera</a>
+                                        <a href="#">Smart Watch</a>
+                                        <a href="#">Laptops</a>
+                                        <a href="#">Mobile</a>
+                                        <a href="#">Buds</a>
+                                    </div><!-- End .tagcloud -->
+                                </div><!-- End .widget -->
+
+                                <div class="widget widget-text">
+                                    <h3 class="widget-title">About Blog</h3><!-- End .widget-title -->
+
+                                    <div class="widget-text-content">
+                                        <p>Stay updated with the latest trends, reviews, and guides on digital electronics. From wireless earbuds to cutting-edge audio technology, we cover everything you need to know about quality electronics and gadgets.</p>
+                                    </div><!-- End .widget-text-content -->
+                                </div><!-- End .widget -->
+                			</div><!-- End .sidebar -->
+                		</aside><!-- End .col-lg-3 -->
+                	</div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+{% endblock %}

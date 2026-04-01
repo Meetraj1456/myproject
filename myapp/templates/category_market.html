@@ -1,0 +1,288 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+    /* Product Grid Layout */
+    .product {
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+        border: 1px solid #e8e8e8;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        height: 100%;
+        margin-bottom: 2rem;
+    }
+
+    .product:hover {
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        border-color: #c96;
+    }
+
+    /* Product Media */
+    .product-media {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f5f5f5;
+        height: 250px;
+        overflow: hidden;
+        margin: 0 !important;
+        padding: 1rem;
+    }
+
+    .product-media a {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+    .product:hover .product-image {
+        transform: scale(1.05);
+    }
+
+    .product-action {
+        position: absolute;
+        bottom: -50px;
+        left: 0;
+        right: 0;
+        transition: all 0.3s ease;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.05);
+    }
+
+    .product:hover .product-action {
+        bottom: 0;
+    }
+
+    /* Product Body */
+    .product-body {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-cat {
+        font-size: 0.85rem;
+        color: #999;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.8rem;
+    }
+
+    .product-cat a {
+        color: #999;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .product-cat a:hover {
+        color: #c96;
+    }
+
+    .product-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 1rem 0;
+        line-height: 1.4;
+        min-height: 2.2rem;
+    }
+
+    .product-title a {
+        color: #333;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .product-title a:hover {
+        color: #c96;
+    }
+
+    .product-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #c96;
+        margin-top: auto;
+    }
+
+    .btn-product {
+        display: inline-block;
+        padding: 0.8rem 1.5rem;
+        background-color: #c96;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        width: 100%;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    .btn-product:hover {
+        background-color: #b87d3a;
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    /* Responsive */
+    @media (max-width: 1199px) {
+        .product-media {
+            height: 220px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .product-media {
+            height: 200px;
+        }
+        
+        .product-body {
+            padding: 1rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .product-media {
+            height: 150px;
+        }
+        
+        .product-title {
+            font-size: 1rem;
+            min-height: 2rem;
+        }
+    }
+</style>
+
+<main class="main">
+
+<div class="page-header text-center" style="background-image: url('{% static 'images/page-header-bg.jpg' %}'); background-size: cover; background-position: center center;">
+    <div class="container">
+        <h1 class="page-title">Shop<span>Browse our products</span></h1>
+    </div>
+</div>
+
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+            <li class="breadcrumb-item active">Shop</li>
+        </ol>
+    </div>
+</nav>
+
+<div class="page-content">
+    <div class="container">
+        <div class="row">
+
+            <!-- ================= LEFT SIDEBAR (CATEGORIES) ================= -->
+            <aside class="col-lg-3 order-lg-first">
+
+                <div class="sidebar sidebar-shop">
+
+                    <div class="widget widget-categories">
+                        <h3 class="widget-title">Categories</h3>
+
+                        <ul>
+                            <li><a href="{% url 'category_market' %}">All Products</a></li>
+
+                            {% for c in cid %}
+                                <li>
+                                    <a href="{% url 'categories' c.id %}">
+                                        {{ c.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+
+                    </div>
+
+                </div>
+            </aside>
+
+
+            <!-- ================= RIGHT SIDE PRODUCTS ================= -->
+            <div class="col-lg-9">
+
+                <div class="toolbox mb-3">
+                    <div class="toolbox-left">
+                        <div class="toolbox-info">
+                            {{ cmid|length }} Products found
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    {% for i in cmid %}
+                    <div class="col-6 col-md-4 col-lg-4 col-xl-3">
+                        <div class="product">
+
+                            <figure class="product-media">
+                                <a href="{% url 'product_details' i.id %}">
+                                    <img src="{{ i.img.url }}" class="product-image" alt="{{ i.name }}">
+                                </a>
+
+                                <div class="product-action">
+                                    <a href="{% url 'product_details' i.id %}" class="btn-product btn-cart">
+                                        <span>View Product</span>
+                                    </a>
+                                </div>
+                            </figure>
+
+                            <div class="product-body">
+                                <div class="product-cat">
+                                    <a href="#">{{ i.categories_id.name }}</a>
+                                </div>
+
+                                <h3 class="product-title">
+                                    <a href="{% url 'product_details' i.id %}">
+                                        {{ i.name }}
+                                    </a>
+                                </h3>
+
+                                <div class="product-price">
+                                    ₹ {{ i.price }}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <h4>No products available in this category</h4>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+```
+
+</main>
+
+{% endblock %}

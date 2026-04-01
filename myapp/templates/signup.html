@@ -1,0 +1,113 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Sign Up</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+			<div class="login-page bg-image pt-8 pb-8 pt-md-12 pb-md-12 pt-lg-17 pb-lg-17" style="background-image: url('{% static 'images/page-header-bg.jpg' %}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+            	<div class="container">
+                    <!-- Display Messages -->
+                    {% if messages %}
+                        <div class="row justify-content-center mb-3">
+                            <div class="col-md-8">
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <script>
+                            // Auto-hide alerts after 5 seconds
+                            setTimeout(function() {
+                                var alerts = document.querySelectorAll('.alert');
+                                alerts.forEach(function(alert) {
+                                    alert.classList.remove('show');
+                                    setTimeout(function() {
+                                        alert.remove();
+                                    }, 150);
+                                });
+                            }, 5000); // 5000 milliseconds = 5 seconds
+                        </script>
+                    {% endif %}
+
+            		<div class="form-box">
+            			<div class="form-tab">
+	            			<div class="form-tab-header text-center mb-4">
+                                <h2 class="form-tab-title">Create Account</h2>
+                                <p class="text-muted">Sign up for a new account</p>
+                            </div><!-- End .form-tab-header -->
+
+							<div class="tab-content">
+							    <div class="tab-pane fade show active" id="signup" role="tabpanel">
+							    	<form action="{% url 'signup' %}" method="POST">
+                                        {% csrf_token %}
+                                        
+                                        <div class="form-group">
+							    			<label for="signup-name">Full Name *</label>
+							    			<input type="text" class="form-control" id="signup-name" name="name" placeholder="Enter your full name" required>
+							    		</div><!-- End .form-group -->
+
+							    		<div class="form-group">
+							    			<label for="signup-email">Email Address *</label>
+							    			<input type="email" class="form-control" id="signup-email" name="email" placeholder="Enter your email" required>
+							    		</div><!-- End .form-group -->
+
+                                        <div class="form-group">
+							    			<label for="signup-phone">Phone Number *</label>
+							    			<input type="tel" class="form-control" id="signup-phone" name="phone_no" placeholder="Enter your phone number" required>
+							    		</div><!-- End .form-group -->
+
+							    		<div class="form-group">
+							    			<label for="signup-password">Password *</label>
+							    			<input type="password" class="form-control" id="signup-password" name="password" placeholder="Create a password" required>
+                                            <small class="form-text text-muted">Password must be at least 8 characters long and include uppercase, lowercase, number, and symbol</small>
+							    		</div><!-- End .form-group -->
+
+							    		<div class="form-footer">
+							    			<button type="submit" class="btn btn-outline-primary-2 btn-block">
+			                					<span>CREATE ACCOUNT</span>
+			            						<i class="icon-long-arrow-right"></i>
+			                				</button>
+							    		</div><!-- End .form-footer -->
+							    	</form>
+
+							    	<div class="form-choice">
+								    	<p class="text-center">or sign up with</p>
+								    	<div class="row">
+								    		<div class="col-sm-6">
+								    			<a href="#" class="btn btn-login btn-g">
+								    				<i class="icon-google"></i>
+								    				Sign Up With Google
+								    			</a>
+								    		</div><!-- End .col-6 -->
+								    		<div class="col-sm-6">
+								    			<a href="#" class="btn btn-login btn-f">
+								    				<i class="icon-facebook-f"></i>
+								    				Sign Up With Facebook
+								    			</a>
+								    		</div><!-- End .col-6 -->
+								    	</div><!-- End .row -->
+							    	</div><!-- End .form-choice -->
+
+                                    <div class="text-center mt-4">
+                                        <p class="mb-0">Already have an account? <a href="{% url 'login' %}" class="text-primary">Sign In</a></p>
+                                    </div><!-- End .text-center -->
+							    </div><!-- .End .tab-pane -->
+							</div><!-- End .tab-content -->
+						</div><!-- End .form-tab -->
+            		</div><!-- End .form-box -->
+            	</div><!-- End .container -->
+            </div><!-- End .login-page section-bg -->
+        </main><!-- End .main -->
+{% endblock %}

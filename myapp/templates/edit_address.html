@@ -1,0 +1,110 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+
+<main class="main">
+    <div class="page-header text-center" style="background-image: url('{% static 'images/page-header-bg.jpg' %}'); background-size: cover; background-position: center center;">
+        <div class="container">
+            <h1 class="page-title">Edit Address<span>Update your address information</span></h1>
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+               <ol class="breadcrumb justify-content-center">
+                  <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                  <li class="breadcrumb-item active">Edit Address</li>
+               </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="page-content">
+        <div class="checkout">
+            <div class="container">
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <!-- ADDRESS FORM -->
+                        <div class="col-lg-8">
+                            <h2 class="checkout-title">Edit Your Address</h2>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>First Name *</label>
+                                    <input 
+                                        type="text" 
+                                        name="first_name" 
+                                        class="form-control" 
+                                        value="{% if address %}{{ address.first_name }}{% endif %}"
+                                        required>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Last Name *</label>
+                                    <input 
+                                        type="text" 
+                                        name="last_name" 
+                                        class="form-control" 
+                                        value="{% if address %}{{ address.last_name }}{% endif %}"
+                                        required>
+                                </div>
+                            </div>
+
+                            <label>Email address *</label>
+                            <input 
+                                type="email" 
+                                name="email" 
+                                class="form-control" 
+                                value="{% if address %}{{ address.email }}{% endif %}"
+                                required>
+
+                            <label>Address *</label>
+                            <input 
+                                type="text" 
+                                name="address" 
+                                class="form-control" 
+                                value="{% if address %}{{ address.address }}{% endif %}"
+                                required>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Country *</label>
+                                    <input 
+                                        type="text" 
+                                        name="country" 
+                                        class="form-control" 
+                                        value="{% if address %}{{ address.country }}{% endif %}"
+                                        required>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>State *</label>
+                                    <input 
+                                        type="text" 
+                                        name="state" 
+                                        class="form-control" 
+                                        value="{% if address %}{{ address.state }}{% endif %}"
+                                        required>
+                                </div>
+                            </div>
+
+                            <label>ZIP Code *</label>
+                            <input 
+                                type="number" 
+                                name="zip_code" 
+                                class="form-control" 
+                                value="{% if address %}{{ address.zip_code }}{% endif %}"
+                                required>
+
+                            <div class="d-grid gap-2 mt-4">
+                                <button type="submit" class="btn btn-primary border-0 py-3 px-4 text-uppercase w-100">Save Address</button>
+                                <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary border py-3 px-4 text-uppercase w-100 mt-2">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

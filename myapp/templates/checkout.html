@@ -1,0 +1,371 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+    /* DELIVERY ADDRESS SECTION */
+    .delivery-address-section {
+        background: #f8f9fa;
+        padding: 40px 0;
+        border-bottom: 2px solid #efefef;
+    }
+
+    .delivery-address-box {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        border-left: 5px solid #c96;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .delivery-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #999;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+    }
+
+    .delivery-name {
+        font-size: 22px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 12px;
+    }
+
+    .delivery-address-text {
+        font-size: 15px;
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .change-address-link {
+        color: #0066cc;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .change-address-link:hover {
+        color: #0052a3;
+        text-decoration: underline;
+    }
+
+    .address-icon {
+        display: inline-block;
+        margin-right: 8px;
+        font-size: 18px;
+    }
+
+    @media (max-width: 768px) {
+        .delivery-address-box {
+            padding: 20px;
+        }
+
+        .delivery-name {
+            font-size: 18px;
+        }
+
+        .delivery-address-text {
+            font-size: 13px;
+        }
+    }
+
+    /* QUANTITY CONTROLS */
+    .qty-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .qty-controls button {
+        transition: all 0.3s ease;
+        font-size: 16px;
+        line-height: 1;
+        padding: 0;
+    }
+
+    .qty-controls button:hover {
+        background-color: #b87d3a !important;
+        transform: scale(1.1);
+    }
+
+    .qty-display {
+        min-width: 30px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    /* CENTER QTY COLUMN HEADER */
+    thead th:nth-child(3) {
+        text-align: center;
+    }
+
+</style>
+
+<main>
+
+<div class="page-header text-center" style="background-image: url('{% static 'images/page-header-bg.jpg' %}'); background-size: cover; background-position: center center;">
+   <div class="container">
+      <div class="row">
+         <div class="col-12">
+            <h1 class="page-title">Checkout<span>Complete your order</span></h1>
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+               <ol class="breadcrumb justify-content-center">
+                  <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'cart' %}">Cart</a></li>
+                  <li class="breadcrumb-item active">Checkout</li>
+               </ol>
+            </nav>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- DELIVERY ADDRESS SECTION -->
+{% if delivery_address %}
+<section class="delivery-address-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="delivery-address-box">
+                    <div class="delivery-label"><span class="address-icon">📍</span>Delivering to</div>
+                    <div class="delivery-name">{{ delivery_address.first_name }} {{ delivery_address.last_name }}</div>
+                    <div class="delivery-address-text">
+                        {{ delivery_address.address }}<br>
+                        {{ delivery_address.state }}, {{ delivery_address.country }}, {{ delivery_address.zip_code }}<br>
+                        <small style="color: #999;">{{ delivery_address.email }}</small>
+                    </div>
+                    <a href="{% url 'billing' %}" class="change-address-link">🔗 Change delivery address</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="cart-area pt-120 pb-120">
+   <div class="container">
+
+```
+  <div class="table-content table-responsive">
+     <h3 class="mb-3">Your Order</h3>
+
+     <table class="table">
+        <thead>
+           <tr>
+              <th>Image</th>
+              <th>Product</th>
+              <th>Qty</th>
+              <th>Total</th>
+           </tr>
+        </thead>
+
+        <tbody id="order-items">
+           {% for i in prod %}
+           <tr data-item-id="{{ i.id }}" class="order-item-row">
+              <td>
+                 {% if i.img %}
+                    <img src="{{ i.img.url }}" width="70">
+                 {% endif %}
+              </td>
+              <td>{{ i.name }}</td>
+              <td>
+                 <div class="qty-controls">
+                    <button class="btn-qty-minus {% if i.qty == 1 %}disabled{% endif %}" data-item-id="{{ i.id }}" {% if i.qty == 1 %}disabled{% endif %} style="background: {% if i.qty == 1 %}#ccc{% else %}#c96{% endif %}; color: #fff; border: none; width: 30px; height: 30px; cursor: {% if i.qty == 1 %}not-allowed{% else %}pointer{% endif %}; border-radius: 3px; font-weight: bold;">−</button>
+                    <span class="qty-display" id="qty-{{ i.id }}">{{ i.qty }}</span>
+                    <button class="btn-qty-plus {% if i.qty == 6 %}disabled{% endif %}" data-item-id="{{ i.id }}" {% if i.qty == 6 %}disabled{% endif %} style="background: {% if i.qty == 6 %}#ccc{% else %}#c96{% endif %}; color: #fff; border: none; width: 30px; height: 30px; cursor: {% if i.qty == 6 %}not-allowed{% else %}pointer{% endif %}; border-radius: 3px; font-weight: bold;">+</button>
+                 </div>
+              </td>
+              <td><span id="total-{{ i.id }}">₹ {{ i.total_price }}</span></td>
+           </tr>
+           {% endfor %}
+        </tbody>
+     </table>
+  </div>
+
+  <div class="row mt-5">
+     <div class="col-lg-6 offset-lg-6">
+        <div class="cart-total">
+           <h4>Cart Total</h4>
+
+           <table class="table">
+              <tr>
+                 <td>Subtotal</td>
+                 <td><span id="subtotal-display">₹ {{ sub_total }}</span></td>
+              </tr>
+              <tr>
+                 <td>Shipping</td>
+                 <td><span id="shipping-display">{% if shipping == 0 %}<span style="color: green; font-weight: bold;">FREE</span>{% else %}₹ {{ shipping }}{% endif %}</span></td>
+              </tr>
+              <tr>
+                 <td><strong>Total</strong></td>
+                 <td><strong><span id="total-display">₹ {{ total }}</span></strong></td>
+              </tr>
+           </table>
+        </div>
+     </div>
+  </div>
+
+  <div class="text-end mt-4">
+     <button id="rzp-button" class="btn btn-primary btn-lg">Pay with Razorpay</button>
+  </div>
+```
+
+   </div>
+</section>
+
+</main>
+
+<!-- RAZORPAY SCRIPT -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+   var options = {
+      "key": "rzp_test_bilBagOBVTi4lE",
+      "amount": "{{ response.amount }}",
+      "currency": "INR",
+      "name": "My Shop",
+      "description": "Order Payment",
+      "order_id": "{{ response.id }}",   // VERY IMPORTANT
+      "handler": function (response){
+            alert("Payment Successful!");
+            var successUrl = "{% url 'success' %}" +
+               "?payment_id=" + encodeURIComponent(response.razorpay_payment_id) +
+               "&order_id=" + encodeURIComponent(response.razorpay_order_id);
+            window.location.href = successUrl;
+      },
+      "prefill": {
+         "name": "{{ uid.name }}",
+         "email": "{{ uid.email }}"
+      },
+      "theme": {
+         "color": "#F37254"
+      }
+   };
+
+   var rzp1 = new Razorpay(options);
+
+   document.getElementById('rzp-button').onclick = function(e){
+      rzp1.open();
+      e.preventDefault();
+   }
+
+   // QUANTITY UPDATE HANDLERS
+   document.querySelectorAll('.btn-qty-plus').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+         e.preventDefault();
+         const itemId = this.getAttribute('data-item-id');
+         updateQuantityPlus(itemId);
+      });
+   });
+
+   document.querySelectorAll('.btn-qty-minus').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+         e.preventDefault();
+         const itemId = this.getAttribute('data-item-id');
+         updateQuantityMinus(itemId);
+      });
+   });
+
+   function updateQuantityPlus(itemId) {
+      fetch('{% url "update_qty_plus_ajax" 0 %}'.replace('0', itemId), {
+         method: 'GET'
+      })
+      .then(response => response.json())
+      .then(data => {
+         if (data.success) {
+            updateUI(itemId, data);
+         } else {
+            alert('Error updating quantity');
+         }
+      })
+      .catch(error => console.error('Error:', error));
+   }
+
+   function updateQuantityMinus(itemId) {
+      fetch('{% url "update_qty_minus_ajax" 0 %}'.replace('0', itemId), {
+         method: 'GET'
+      })
+      .then(response => response.json())
+      .then(data => {
+         if (data.success) {
+            if (data.min_qty_reached) {
+               // Show message that minimum quantity is 1
+               const btn = document.querySelector(`.btn-qty-minus[data-item-id="${itemId}"]`);
+               btn.style.opacity = '0.5';
+               btn.style.cursor = 'not-allowed';
+            } else {
+               updateUI(itemId, data);
+            }
+         } else {
+            alert('Error updating quantity');
+         }
+      })
+      .catch(error => console.error('Error:', error));
+   }
+
+   function updateUI(itemId, data) {
+      // Update quantity display
+      document.getElementById('qty-' + itemId).textContent = data.qty;
+      
+      // Update item total price
+      document.getElementById('total-' + itemId).textContent = '₹ ' + data.total_price;
+      
+      // Update minus button state
+      const minusBtn = document.querySelector(`.btn-qty-minus[data-item-id="${itemId}"]`);
+      if (data.qty === 1) {
+         minusBtn.disabled = true;
+         minusBtn.style.background = '#ccc';
+         minusBtn.style.cursor = 'not-allowed';
+         minusBtn.style.opacity = '0.6';
+      } else {
+         minusBtn.disabled = false;
+         minusBtn.style.background = '#c96';
+         minusBtn.style.cursor = 'pointer';
+         minusBtn.style.opacity = '1';
+      }
+      
+      // Recalculate all totals
+      calculateTotals();
+   }
+
+   function calculateTotals() {
+      let subtotal = 0;
+      
+      // Sum all item totals
+      document.querySelectorAll('#order-items .order-item-row').forEach(row => {
+         const totalText = row.querySelector('td:last-child span').textContent;
+         const total = parseInt(totalText.replace('₹ ', ''));
+         subtotal += total;
+      });
+      
+      // Calculate shipping based on subtotal
+      let shipping = subtotal >= 3000 ? 0 : 50;
+      let grandTotal = subtotal + shipping;
+      
+      // Update displays
+      document.getElementById('subtotal-display').textContent = '₹ ' + subtotal;
+      
+      if (shipping === 0) {
+         document.getElementById('shipping-display').innerHTML = '<span style="color: green; font-weight: bold;">FREE</span>';
+      } else {
+         document.getElementById('shipping-display').textContent = '₹ ' + shipping;
+      }
+      
+      document.getElementById('total-display').textContent = '₹ ' + grandTotal;
+      
+      // Update Razorpay amount
+      var amount = grandTotal * 100;
+      rzp1.options.amount = amount;
+   }
+
+   </script>
+
+{% endblock %}

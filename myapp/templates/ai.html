@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Assistant</title>
+
+<style>
+
+body{
+background:#f4f6f9;
+font-family:Arial;
+}
+
+.chat-container{
+width:400px;
+margin:50px auto;
+background:white;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+overflow:hidden;
+}
+
+.chat-header{
+background:#007bff;
+color:white;
+padding:15px;
+font-size:18px;
+}
+
+.chat-box{
+height:400px;
+overflow-y:auto;
+padding:10px;
+}
+
+.message{
+margin:10px 0;
+padding:10px;
+border-radius:10px;
+max-width:80%;
+}
+
+.user{
+background:#007bff;
+color:white;
+margin-left:auto;
+}
+
+.bot{
+background:#e4e6eb;
+color:black;
+}
+
+.chat-input{
+display:flex;
+border-top:1px solid #ccc;
+}
+
+.chat-input input{
+flex:1;
+padding:10px;
+border:none;
+outline:none;
+}
+
+.chat-input button{
+padding:10px;
+background:#007bff;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="chat-container">
+
+<div class="chat-header">
+AI Shopping Assistant
+</div>
+
+<div class="chat-box" id="chat-box">
+</div>
+
+<div class="chat-input">
+
+<input type="text" id="message" placeholder="Ask something...">
+
+<button onclick="sendMessage()">Send</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+function sendMessage(){
+
+let message = document.getElementById("message").value;
+
+if(message=="") return;
+
+addMessage(message,"user");
+
+fetch("/ai_chat/",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json",
+"X-CSRFToken": getCookie("csrftoken")
+},
+
+body:JSON.stringify({
+message:message
+})
+
+})
+.then(res=>res.json())
+.then(data=>{
+
+addMessage(data.reply,"bot");
+
+});
+
+document.getElementById("message").value="";
+
+}
+
+function addMessage(text,type){
+
+let chatBox=document.getElementById("chat-box");
+
+let div=document.createElement("div");
+
+div.classList.add("message",type);
+
+div.innerText=text;
+
+chatBox.appendChild(div);
+
+chatBox.scrollTop=chatBox.scrollHeight;
+
+}
+
+function getCookie(name){
+
+let cookieValue=null;
+
+if(document.cookie && document.cookie!==''){
+
+let cookies=document.cookie.split(';');
+
+for(let i=0;i<cookies.length;i++){
+
+let cookie=cookies[i].trim();
+
+if(cookie.substring(0,name.length+1)===(name+'=')){
+
+cookieValue=decodeURIComponent(cookie.substring(name.length+1));
+
+break;
+
+}
+
+}
+
+}
+
+return cookieValue;
+
+}
+
+</script>
+
+</body>
+</html>

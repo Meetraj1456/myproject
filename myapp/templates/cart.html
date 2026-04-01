@@ -1,0 +1,123 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+
+<main class="main">
+
+```
+<!-- PAGE HEADER -->
+<div class="page-header text-center" style="background-image: url('{% static 'images/page-header-bg.jpg' %}'); background-size: cover; background-position: center center;">
+    <div class="container">
+        <h1 class="page-title">Shopping Cart<span>Your cart items</span></h1>
+    </div>
+</div>
+
+<!-- BREADCRUMB -->
+<nav aria-label="breadcrumb" class="breadcrumb-nav border-bottom mb-4">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'category_market' %}">Shop</a></li>
+            <li class="breadcrumb-item active">Shopping Cart</li>
+        </ol>
+    </div>
+</nav>
+
+<div class="page-content">
+    <div class="cart">
+        <div class="container">
+            <div class="row">
+
+                <!-- CART TABLE -->
+                <div class="col-lg-9">
+
+                    <div class="table-responsive">
+                        <table class="table table-cart table-bordered text-center align-middle">
+
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="text-left">Product</th>
+                                    <th>Price</th>
+                                    <th width="180">Quantity</th>
+                                    <th>Total</th>
+                                    <th width="60"></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for i in aid %}
+                                <tr>
+
+                                    <!-- PRODUCT -->
+                                    <td class="text-left">
+                                        <div class="d-flex align-items-center">
+                                            <img src="{{ i.img.url }}" width="80" class="mr-3">
+                                            <strong>{{ i.name }}</strong>
+                                        </div>
+                                    </td>
+
+                                    <!-- PRICE -->
+                                    <td>₹ {{ i.price }}</td>
+
+                                    <!-- QUANTITY -->
+									<td class="quantity-col">
+										<div class="qty-box" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+											<a href="{% url 'minus' i.id %}" class="qty-btn">−</a>
+											<div class="qty-number" style="min-width: 50px; text-align: center; font-weight: bold; font-size: 18px;">{{ i.qty }}</div>
+											<a href="{% url 'plus' i.id %}" class="qty-btn">+</a>
+										</div>
+									</td>
+
+                                    <!-- TOTAL -->
+                                    <td class="font-weight-bold">₹ {{ i.total_price }}</td>
+
+                                    <!-- REMOVE -->
+                                    <td>
+                                        <a href="{% url 'remove_cart' i.id %}" class="text-danger">
+                                            <i class="icon-close" style="font-size:18px;"></i>
+                                        </a>
+                                    </td>
+
+                                </tr>
+
+                            {% empty %}
+                                <tr>
+                                    <td colspan="5" class="py-5">
+                                        <h5>Your cart is empty 🛒</h5>
+                                        <a href="{% url 'category_market' %}" class="btn btn-primary mt-3">
+                                            Continue Shopping
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT SIDE SUMMARY -->
+                <aside class="col-lg-3">
+                    <div class="card shadow-sm p-3">
+                        <h4 class="mb-3">Cart Actions</h4>
+
+                        <a href="{% url 'billing' %}" class="btn btn-primary btn-block mb-3">
+                            PROCEED TO Billing
+                        </a>
+
+                        <a href="{% url 'category_market' %}" class="btn btn-outline-secondary btn-block">
+                            CONTINUE SHOPPING
+                        </a>
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+</main>
+
+{% endblock %}
