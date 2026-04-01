@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: myproject
+    env: python
+    plan: free
+    buildCommand: bash build.sh
+    startCommand: gunicorn myproject.wsgi
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: DEBUG
+        value: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: CSRF_TRUSTED_ORIGINS
+        sync: false
