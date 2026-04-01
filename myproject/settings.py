@@ -128,8 +128,17 @@ STATICFILES_DIRS = [
     BASE_DIR / 'myapp' / 'static',
 ]
 
+STORAGES = {
+    'default': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+    },
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+}
+
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.getenv('MEDIA_ROOT', os.path.join(BASE_DIR, 'media'))
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/6.0/ref/settings/#default-auto-field
@@ -160,8 +169,11 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_SECURITY_POLICY = {
-        'default-src': ("'self'",),
-        'script-src': ("'self'", "'unsafe-inline'", "'unsafe-eval'"),
-        'style-src': ("'self'", "'unsafe-inline'"),
-        'img-src': ("'self'", "data:", "https:"),
-    }
+            'default-src': ("'self'",),
+            'script-src': ("'self'", "'unsafe-inline'", "'unsafe-eval'"),
+            'style-src': ("'self'", "'unsafe-inline'"),
+            'img-src': ("'self'", "data:", "https:"),
+        }
+
+    # Serve media files even in production
+    WHITENOISE_AUTOREFRESH = DEBUG

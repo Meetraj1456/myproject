@@ -24,9 +24,11 @@ urlpatterns = [
     path('', include('myapp.urls'))
 ]
 
-# Serve static and media files in development
+# Serve media files in all environments
+urlpatterns += static(settings.MEDIA_URL,
+                      document_root=settings.MEDIA_ROOT)
+
+# Serve static files in development (WhiteNoise handles it in production)
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL,
                           document_root=settings.STATICFILES_DIRS[0])
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
