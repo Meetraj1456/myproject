@@ -149,16 +149,14 @@ def logout_view(request):
 
 def home(request):
     # Home page is accessible to everyone
+    pid = Add_product.objects.all()
+    con = {'pid': pid}
+    
     if "email" in request.session:
         uid = User.objects.get(email=request.session['email'])
-        pid = Add_product.objects.all()
-        con = {
-            'uid': uid,
-            'pid': pid
-        }
-        return render(request, 'index.html', con)
-    else:
-        return render(request, 'index.html')
+        con['uid'] = uid
+    
+    return render(request, 'index.html', con)
 
 
 @login_required
@@ -404,14 +402,14 @@ def search(request):
 
 @login_required
 def product_details(request, id):
-    uid = User.objects.get(email=request.session['email'])
-
+    # Product details accessible to everyone, but show user info if logged in
     prid = Add_product.objects.get(id=id)
-
-    con = {
-        'uid': uid,
-        'prid': prid
-    }
+    con = {'prid': prid}
+    
+    if "email" in request.session:
+        uid = User.objects.get(email=request.session['email'])
+        con['uid'] = uid
+    
     return render(request, 'product_details.html', con)
 
 
@@ -786,23 +784,21 @@ def wishlist(request):
 
 
 @login_required
+@login_required
 def add_to_wishlist(request, id):
-    if "email" in request.session:
-        uid = User.objects.get(email=request.session['email'])
-        pid = Add_product.objects.get(id=id)
+    uid = User.objects.get(email=request.session['email'])
+    pid = Add_product.objects.get(id=id)
 
-        Wishlist.objects.create(
-            uid=uid,
-            pid=pid,
-            name=pid.name,
-            desc=pid.desc,
-            img=pid.img,
-            price=pid.price
-        )
+    Wishlist.objects.create(
+        uid=uid,
+        pid=pid,
+        name=pid.name,
+        desc=pid.desc,
+        img=pid.img,
+        price=pid.price
+    )
 
-        return redirect('wishlist')
-    else:
-        return render(request, 'product_details.html')
+    return redirect('wishlist')
 
 
 @login_required
