@@ -1,36 +1,168 @@
+<!-- Mobile Sidebar Menu -->
+<div class="mobile-sidebar-overlay" id="mobileSidebarOverlay"></div>
+
+<div class="mobile-sidebar" id="mobileSidebar">
+    <div class="mobile-sidebar-header">
+        <h2 style="font-size: 18px; margin: 0; color: #333;">Menu</h2>
+        <button class="mobile-sidebar-close" id="closeSidebar">&times;</button>
+    </div>
+    
+    <!-- Main Navigation -->
+    <div class="mobile-menu-group">
+        <div class="mobile-menu-title">Shop</div>
+        <a href="{% url 'index' %}" class="mobile-menu-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}">
+            <span class="mobile-menu-icon">🏠</span>
+            <span class="mobile-menu-label">Home</span>
+        </a>
+        <a href="{% url 'category_market' %}" class="mobile-menu-item {% if request.resolver_match.url_name == 'category_market' %}active{% endif %}">
+            <span class="mobile-menu-icon">📦</span>
+            <span class="mobile-menu-label">All Products</span>
+        </a>
+        <a href="{% url 'wishlist' %}" class="mobile-menu-item {% if request.resolver_match.url_name == 'wishlist' %}active{% endif %}">
+            <span class="mobile-menu-icon">❤️</span>
+            <span class="mobile-menu-label">My Wishlist</span>
+        </a>
+        <a href="{% url 'cart' %}" class="mobile-menu-item {% if request.resolver_match.url_name == 'cart' %}active{% endif %}">
+            <span class="mobile-menu-icon">🛒</span>
+            <span class="mobile-menu-label">My Cart</span>
+        </a>
+    </div>
+    
+    <!-- Account & Help -->
+    <div class="mobile-menu-group">
+        <div class="mobile-menu-title">Account & Help</div>
+        {% if uid %}
+            <a href="{% url 'dashboard' %}" class="mobile-menu-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                <span class="mobile-menu-icon">👤</span>
+                <span class="mobile-menu-label">My Account</span>
+            </a>
+            <a href="{% url 'logout' %}" class="mobile-menu-item">
+                <span class="mobile-menu-icon">🚪</span>
+                <span class="mobile-menu-label">Sign Out</span>
+            </a>
+        {% else %}
+            <a href="{% url 'login' %}" class="mobile-menu-item">
+                <span class="mobile-menu-icon">👤</span>
+                <span class="mobile-menu-label">Sign In</span>
+            </a>
+            <a href="{% url 'signup' %}" class="mobile-menu-item">
+                <span class="mobile-menu-icon">✍️</span>
+                <span class="mobile-menu-label">Create Account</span>
+            </a>
+        {% endif %}
+        <a href="{% url 'contact' %}" class="mobile-menu-item {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+            <span class="mobile-menu-icon">📞</span>
+            <span class="mobile-menu-label">Customer Service</span>
+        </a>
+    </div>
+    
+    <!-- Information -->
+    <div class="mobile-menu-group">
+        <div class="mobile-menu-title">Information</div>
+        <a href="{% url 'about' %}" class="mobile-menu-item {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+            <span class="mobile-menu-icon">ℹ️</span>
+            <span class="mobile-menu-label">About Us</span>
+        </a>
+        <a href="{% url 'blog' %}" class="mobile-menu-item {% if request.resolver_match.url_name == 'blog' %}active{% endif %}">
+            <span class="mobile-menu-icon">📝</span>
+            <span class="mobile-menu-label">Blog</span>
+        </a>
+    </div>
+</div>
+
 <!-- Mobile Bottom Navigation -->
 <nav class="mobile-bottom-nav d-md-none">
-    <a href="{% url 'index' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}">
+    <button class="mobile-menu-toggle" id="openSidebar" style="flex: 0.5;">
+        ☰
+    </button>
+    
+    <a href="{% url 'index' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}" style="flex: 1;">
         <div class="nav-icon">🏠</div>
         <div class="nav-label">Home</div>
     </a>
     
-    <a href="{% url 'category_market' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'category_market' %}active{% endif %}">
-        <div class="nav-icon">📦</div>
-        <div class="nav-label">Shop</div>
-    </a>
-    
-    <a href="{% url 'wishlist' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'wishlist' %}active{% endif %}">
+    <a href="{% url 'wishlist' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'wishlist' %}active{% endif %}" style="flex: 1;">
         <div class="nav-icon">❤️</div>
         <div class="nav-label">Wishlist</div>
         {% if uid.wishlist_count %}<span class="badge">{{ uid.wishlist_count }}</span>{% endif %}
     </a>
     
-    <a href="{% url 'cart' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'cart' %}active{% endif %}">
+    <a href="{% url 'cart' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'cart' %}active{% endif %}" style="flex: 1;">
         <div class="nav-icon">🛒</div>
         <div class="nav-label">My Cart</div>
         {% if cart_count %}<span class="badge">{{ cart_count }}</span>{% endif %}
     </a>
     
     {% if uid %}
-        <a href="{% url 'dashboard' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+        <a href="{% url 'dashboard' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" style="flex: 1;">
             <div class="nav-icon">👤</div>
             <div class="nav-label">Account</div>
         </a>
     {% else %}
-        <a href="{% url 'login' %}" class="mobile-nav-item">
+        <a href="{% url 'login' %}" class="mobile-nav-item" style="flex: 1;">
             <div class="nav-icon">👤</div>
             <div class="nav-label">Sign In</div>
         </a>
     {% endif %}
 </nav>
+
+<!-- Mobile Sidebar JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const openBtn = document.getElementById('openSidebar');
+    const closeBtn = document.getElementById('closeSidebar');
+    const sidebar = document.getElementById('mobileSidebar');
+    const overlay = document.getElementById('mobileSidebarOverlay');
+    
+    // Open sidebar
+    if (openBtn) {
+        openBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+        });
+    }
+    
+    // Close sidebar
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    }
+    
+    // Close sidebar when clicking overlay
+    if (overlay) {
+        overlay.addEventListener('click', function() {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    }
+    
+    // Close sidebar when clicking on a menu item
+    const menuItems = document.querySelectorAll('.mobile-menu-item');
+    menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    });
+    
+    // Close sidebar on swipe (optional)
+    let touchStartX = 0;
+    document.addEventListener('touchstart', function(e) {
+        touchStartX = e.touches[0].clientX;
+    });
+    
+    document.addEventListener('touchend', function(e) {
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchStartX - touchEndX;
+        
+        // If swiped left by more than 50px, close sidebar
+        if (diff > 50 && sidebar.classList.contains('active')) {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+    });
+});
+</script>
