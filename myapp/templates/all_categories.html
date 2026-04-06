@@ -1,0 +1,125 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+
+<main class="main">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header text-center" style="background-image: url('{% static 'images/page-header-bg.jpg' %}'); background-size: cover; background-position: center center;">
+        <div class="container">
+            <h1 class="page-title">All Categories<span>Browse all our categories</span></h1>
+        </div>
+    </div>
+
+    <!-- BREADCRUMB -->
+    <nav aria-label="breadcrumb" class="breadcrumb-nav border-bottom mb-4">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                <li class="breadcrumb-item active">All Categories</li>
+            </ol>
+        </div>
+    </nav>
+
+    <!-- CATEGORIES SECTION -->
+    <div class="container mb-8">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="title text-center mb-5">Explore All Categories</h2>
+                
+                <div class="cat-blocks-container">
+                    <div class="row">
+                        {% for category in all_cats %}
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4">
+                            <a href="{% url 'categories' category.id %}" class="cat-block h-100">
+                                <figure style="display: flex; align-items: center; justify-content: center; height: 180px; width: 100%; margin: 0; background-color: #f9f9f9; border-radius: 6px; overflow: hidden; transition: all 0.3s ease;">
+                                    <span style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                        {% if category.image %}
+                                            <img src="{{ category.image.url }}" alt="{{ category.name }}" style="max-width: 90%; max-height: 90%; object-fit: contain; transition: transform 0.3s ease;">
+                                        {% else %}
+                                            <img src="{% static '/images/demos/demo-4/cats/1.png' %}" alt="{{ category.name }}" style="max-width: 90%; max-height: 90%; object-fit: contain; transition: transform 0.3s ease;">
+                                        {% endif %}
+                                    </span>
+                                </figure>
+
+                                <h3 class="cat-block-title" style="text-align: center; margin-top: 12px; color: #333; font-weight: 600;">{{ category.name }}</h3>
+                            </a>
+                        </div>
+                        {% empty %}
+                        <div class="col-12">
+                            <h4 class="text-center">No categories available</h4>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .cat-block {
+            display: block;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cat-block:hover {
+            text-decoration: none;
+        }
+
+        .cat-block:hover figure {
+            background-color: #f0f0f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .cat-block:hover img {
+            transform: scale(1.08);
+        }
+
+        .cat-block:hover .cat-block-title {
+            color: #c96 !important;
+        }
+
+        .cat-block-title {
+            transition: color 0.3s ease;
+        }
+
+        @media (max-width: 992px) {
+            .cat-block figure {
+                height: 160px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cat-block figure {
+                height: 140px !important;
+            }
+            
+            .cat-block-title {
+                font-size: 0.95rem !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .cat-block figure {
+                height: 120px !important;
+            }
+            
+            .col-6 {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+            
+            .cat-block-title {
+                font-size: 0.85rem !important;
+                margin-top: 8px !important;
+            }
+        }
+    </style>
+
+</main>
+
+{% endblock %}

@@ -309,7 +309,7 @@ def categories(request, id):
     uid = User.objects.get(email=request.session['email'])
 
     cid = Categories.objects.all()   # keep sidebar visible
-    cmid = Add_product.objects.filter(categories_id=id)[:6]  # Limit to 6 products
+    cmid = Add_product.objects.filter(categories_id=id)
 
     con = {
         'uid': uid,
@@ -332,6 +332,22 @@ def category_market(request):
         'cmid': cmid
     }
     return render(request, 'category_market.html', con)
+
+
+def all_categories(request):
+    # View all categories page - accessible to everyone
+    all_cats = Categories.objects.all()
+    
+    if "email" in request.session:
+        uid = User.objects.get(email=request.session['email'])
+    else:
+        uid = None
+    
+    con = {
+        'uid': uid,
+        'all_cats': all_cats
+    }
+    return render(request, 'all_categories.html', con)
 
 
 @login_required
