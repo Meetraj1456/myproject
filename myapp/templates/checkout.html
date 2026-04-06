@@ -422,27 +422,31 @@
 
    var rzp1 = new Razorpay(options);
 
-   document.getElementById('rzp-button').onclick = function(e){
-      rzp1.open();
-      e.preventDefault();
-   }
-
-   // QUANTITY UPDATE HANDLERS
-   document.querySelectorAll('.btn-qty-plus').forEach(btn => {
-      btn.addEventListener('click', function(e) {
+   // Fix for both desktop and mobile Razorpay buttons
+   document.querySelectorAll('#rzp-button').forEach(button => {
+      button.addEventListener('click', function(e){
          e.preventDefault();
-         const itemId = this.getAttribute('data-item-id');
-         updateQuantityPlus(itemId);
+         rzp1.open();
       });
    });
 
-   document.querySelectorAll('.btn-qty-minus').forEach(btn => {
-      btn.addEventListener('click', function(e) {
+   // QUANTITY UPDATE HANDLERS - Use event delegation for better mobile support
+   document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('btn-qty-plus')) {
          e.preventDefault();
-         const itemId = this.getAttribute('data-item-id');
-         updateQuantityMinus(itemId);
-      });
-   });
+         const itemId = e.target.getAttribute('data-item-id');
+         if (itemId && !e.target.disabled) {
+            updateQuantityPlus(itemId);
+         }
+      }
+      if (e.target.classList.contains('btn-qty-minus')) {
+         e.preventDefault();
+         const itemId = e.target.getAttribute('data-item-id');
+         if (itemId && !e.target.disabled) {
+            updateQuantityMinus(itemId);
+         }
+      }
+   }, true);
 
    function updateQuantityPlus(itemId) {
       fetch('{% url "update_qty_plus_ajax" 0 %}'.replace('0', itemId), {
