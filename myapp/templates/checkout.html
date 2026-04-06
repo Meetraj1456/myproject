@@ -292,10 +292,10 @@
                      </td>
                      <td>{{ i.name }}</td>
                      <td>
-                        <div class="qty-controls">
-                           <button class="btn-qty-minus {% if i.qty == 1 %}disabled{% endif %}" data-item-id="{{ i.id }}" {% if i.qty == 1 %}disabled{% endif %} style="background: {% if i.qty == 1 %}#ccc{% else %}#c96{% endif %}; color: #fff; border: none; width: 30px; height: 30px; cursor: {% if i.qty == 1 %}not-allowed{% else %}pointer{% endif %}; border-radius: 3px; font-weight: bold;">−</button>
-                           <span class="qty-display" id="qty-{{ i.id }}">{{ i.qty }}</span>
-                           <button class="btn-qty-plus {% if i.qty == 6 %}disabled{% endif %}" data-item-id="{{ i.id }}" {% if i.qty == 6 %}disabled{% endif %} style="background: {% if i.qty == 6 %}#ccc{% else %}#c96{% endif %}; color: #fff; border: none; width: 30px; height: 30px; cursor: {% if i.qty == 6 %}not-allowed{% else %}pointer{% endif %}; border-radius: 3px; font-weight: bold;">+</button>
+                        <div class="qty-controls" style="display: flex; align-items: center; gap: 8px;">
+                           <button type="button" class="btn-qty-minus" data-item-id="{{ i.id }}" style="background: {% if i.qty == 1 %}#ccc{% else %}#c96{% endif %}; color: #fff; border: none; width: 35px; height: 35px; cursor: {% if i.qty == 1 %}not-allowed{% else %}pointer{% endif %}; border-radius: 3px; font-weight: bold; font-size: 16px; opacity: {% if i.qty == 1 %}0.5{% else %}1{% endif %};">−</button>
+                           <span class="qty-display" id="qty-{{ i.id }}" style="min-width: 40px; text-align: center; font-weight: bold;">{{ i.qty }}</span>
+                           <button type="button" class="btn-qty-plus" data-item-id="{{ i.id }}" style="background: {% if i.qty == 6 %}#ccc{% else %}#c96{% endif %}; color: #fff; border: none; width: 35px; height: 35px; cursor: {% if i.qty == 6 %}not-allowed{% else %}pointer{% endif %}; border-radius: 3px; font-weight: bold; font-size: 16px; opacity: {% if i.qty == 6 %}0.5{% else %}1{% endif %};">+</button>
                         </div>
                      </td>
                      <td><span id="total-{{ i.id }}">₹ {{ i.total_price }}</span></td>
@@ -436,7 +436,9 @@
          e.preventDefault();
          e.stopPropagation();
          const itemId = e.target.getAttribute('data-item-id');
-         const qtyEl = document.getElementById('mobile-qty-' + itemId);
+         
+         // Get quantity from either desktop or mobile view
+         let qtyEl = document.getElementById('qty-' + itemId) || document.getElementById('mobile-qty-' + itemId);
          const currentQty = parseInt(qtyEl ? qtyEl.textContent : 0);
          
          // Allow maximum quantity of 6
@@ -448,7 +450,9 @@
          e.preventDefault();
          e.stopPropagation();
          const itemId = e.target.getAttribute('data-item-id');
-         const qtyEl = document.getElementById('mobile-qty-' + itemId);
+         
+         // Get quantity from either desktop or mobile view
+         let qtyEl = document.getElementById('qty-' + itemId) || document.getElementById('mobile-qty-' + itemId);
          const currentQty = parseInt(qtyEl ? qtyEl.textContent : 0);
          
          // Allow minimum quantity of 1
@@ -459,11 +463,13 @@
    }, false);
 
    function updateQuantityPlus(itemId) {
+      console.log('Updating quantity plus for item:', itemId);
       fetch('{% url "update_qty_plus_ajax" 0 %}'.replace('0', itemId), {
          method: 'GET'
       })
       .then(response => response.json())
       .then(data => {
+         console.log('Response:', data);
          if (data.success) {
             updateUI(itemId, data);
          } else {
@@ -474,11 +480,13 @@
    }
 
    function updateQuantityMinus(itemId) {
+      console.log('Updating quantity minus for item:', itemId);
       fetch('{% url "update_qty_minus_ajax" 0 %}'.replace('0', itemId), {
          method: 'GET'
       })
       .then(response => response.json())
       .then(data => {
+         console.log('Response:', data);
          if (data.success) {
             if (data.min_qty_reached) {
                // Show message that minimum quantity is 1
