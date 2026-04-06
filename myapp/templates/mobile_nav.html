@@ -1,31 +1,32 @@
 <!-- Mobile Bottom Navigation -->
 <nav class="mobile-bottom-nav d-md-none">
-    <a href="{% url 'index' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}" style="flex: 1;">
+    <a href="{% url 'index' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}">
         <div class="nav-icon">🏠</div>
         <div class="nav-label">Home</div>
     </a>
     
-    <a href="{% url 'wishlist' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'wishlist' %}active{% endif %}" style="flex: 1;">
+    <a href="{% url 'wishlist' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'wishlist' %}active{% endif %}">
         <div class="nav-icon">❤️</div>
         <div class="nav-label">Wishlist</div>
         {% if uid.wishlist_count %}<span class="badge">{{ uid.wishlist_count }}</span>{% endif %}
     </a>
     
-    <a href="{% url 'cart' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'cart' %}active{% endif %}" style="flex: 1;">
+    <a href="{% url 'cart' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'cart' %}active{% endif %}">
         <div class="nav-icon">🛒</div>
         <div class="nav-label">My Cart</div>
         {% if cart_count %}<span class="badge">{{ cart_count }}</span>{% endif %}
     </a>
     
     {% if uid %}
-        <a href="{% url 'dashboard' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" style="flex: 1;">
+        <a href="{% url 'dashboard' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
             <div class="nav-icon">👤</div>
             <div class="nav-label">Account</div>
         </a>
     {% else %}
-        <a href="{% url 'login' %}" class="mobile-nav-item" style="flex: 1;">
+        <a href="{% url 'login' %}" class="mobile-nav-item">
             <div class="nav-icon">👤</div>
             <div class="nav-label">Sign In</div>
         </a>
     {% endif %}
+</nav>
 </nav>
