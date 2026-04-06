@@ -1249,12 +1249,12 @@
                                     </a>
 
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"></a>
+                                        <a href="{% url 'add_to_wishlist' i.id %}" class="btn-product-icon btn-wishlist" title="Add to wishlist"></a>
                                     </div><!-- End .product-action -->
 
                                     <div class="product-action">
                                         <a href="{%url 'add_to_cart' i.id%}" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a>
-                                        <a href="javascript:void(0)" class="btn-product btn-quickview" data-product-id="{{ i.id }}" data-product-name="{{ i.name }}" data-product-price="{{ i.price }}" data-product-img="{{ i.img.url }}" data-product-desc="{{ i.desc }}" title="Quick view"><span>quick view</span></a>
+                                        <a href="{% url 'product_details' i.id %}" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
                                     </div><!-- End .product-action -->
                                 </figure><!-- End .product-media -->
 
