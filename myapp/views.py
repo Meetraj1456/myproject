@@ -309,7 +309,7 @@ def categories(request, id):
     uid = User.objects.get(email=request.session['email'])
 
     cid = Categories.objects.all()   # keep sidebar visible
-    cmid = Add_product.objects.filter(categories_id=id)
+    cmid = Add_product.objects.filter(categories_id=id)[:6]  # Limit to 6 products
 
     con = {
         'uid': uid,
