@@ -647,80 +647,175 @@ def invoice_pdf(request, order_id):
     width, height = A4
     y = height - 40
 
-    # Company/Website Name Header
-    pdf.setFont('Helvetica-Bold', 24)
-    pdf.drawString(40, y, 'Digital Electronics')
+    # Modern Teal & Orange Theme
+    # Color definitions
+    teal = colors.HexColor('#00998D')
+    orange = colors.HexColor('#FF9900')
+    light_gray = colors.HexColor('#F5F5F5')
+    dark_gray = colors.HexColor('#333333')
+    white = colors.white
+    black = colors.black
     
-    pdf.setFont('Helvetica', 9)
-    y -= 18
-    pdf.drawString(40, y, 'Your Premium Electronics Store')
-    pdf.drawString(40, y - 12, 'Email: support@digitalelectronics.com | Phone: +91 9876543210')
+    # Top colored bar
+    pdf.setFillColor(teal)
+    pdf.rect(0, height - 70, width, 70, fill=1, stroke=0)
 
-    # Invoice Title and Details
-    y -= 40
-    pdf.setFont('Helvetica-Bold', 16)
+    # Header Section with White Text on Teal
+    pdf.setFont('Helvetica-Bold', 28)
+    pdf.setFillColor(white)
+    pdf.drawString(40, height - 35, 'Digital Electronics')
+    
+    pdf.setFont('Helvetica', 8)
+    pdf.setFillColor(light_gray)
+    pdf.drawString(40, height - 50, 'Your Premium Electronics Store |')
+    pdf.drawString(250, height - 50, 'support@digitalelectronics.com |')
+    pdf.drawString(450, height - 50, '+91 9876543210')
+
+    y = height - 100
+
+    # Invoice Title
+    pdf.setFont('Helvetica-Bold', 20)
+    pdf.setFillColor(teal)
     pdf.drawString(40, y, 'INVOICE')
     
-    pdf.setFont('Helvetica', 10)
+    # Invoice Number and Date with Light Background Box
     y -= 25
-    pdf.drawString(40, y, f"Invoice #: {order.id}")
-    pdf.drawString(
-        240, y, f"Date: {timezone.localtime(order.created_at).strftime('%Y-%m-%d %H:%M')}")
-
-    y -= 20
-    pdf.drawString(40, y, f"Payment ID: {order.payment_id or 'N/A'}")
-    pdf.drawString(240, y, f"Order ID: {order.payment_order_id or 'N/A'}")
-
-    y -= 30
-    pdf.setFont('Helvetica-Bold', 12)
-    pdf.drawString(40, y, 'Bill To')
-
+    pdf.setFillColor(light_gray)
+    pdf.rect(40, y - 35, 510, 40, fill=1, stroke=0)
+    
+    pdf.setFont('Helvetica-Bold', 10)
+    pdf.setFillColor(teal)
+    pdf.drawString(50, y - 8, 'Invoice #')
     pdf.setFont('Helvetica', 10)
-    y -= 15
-    pdf.drawString(40, y, f"Name: {uid.name}")
-    y -= 15
-    pdf.drawString(40, y, f"Email: {uid.email}")
-    y -= 15
-    pdf.drawString(40, y, f"Phone: {uid.phone_no}")
-    y -= 15
-    if address:
-        pdf.drawString(
-            40, y, f"Address: {address.address}, {address.state}, {address.country} - {address.zip_code}")
+    pdf.setFillColor(black)
+    pdf.drawString(50, y - 20, str(int(order.id)))
+    
+    pdf.setFont('Helvetica-Bold', 10)
+    pdf.setFillColor(teal)
+    pdf.drawString(200, y - 8, 'Date')
+    pdf.setFont('Helvetica', 10)
+    pdf.setFillColor(black)
+    pdf.drawString(200, y - 20, timezone.localtime(order.created_at).strftime('%d %b, %Y'))
+    
+    pdf.setFont('Helvetica-Bold', 10)
+    pdf.setFillColor(orange)
+    pdf.drawString(350, y - 8, 'Payment ID')
+    pdf.setFont('Helvetica', 10)
+    pdf.setFillColor(black)
+    pdf.drawString(350, y - 20, str(order.payment_id or 'N/A'))
 
-    y -= 30
+    y -= 50
+    
+    # Bill To Section
+    pdf.setFont('Helvetica-Bold', 11)
+    pdf.setFillColor(teal)
+    pdf.drawString(40, y, 'BILL TO')
+    
+    pdf.setLineWidth(2)
+    pdf.setStrokeColor(orange)
+    pdf.line(40, y - 3, 120, y - 3)
+    
+    pdf.setFont('Helvetica', 10)
+    pdf.setFillColor(black)
+    y -= 18
+    pdf.drawString(40, y, str(uid.name))
+    y -= 12
+    pdf.drawString(40, y, str(uid.email))
+    y -= 12
+    pdf.drawString(40, y, str(uid.phone_no))
+    y -= 12
+    if address:
+        pdf.drawString(40, y, f"{str(address.address)}, {str(address.state)}, {str(address.country)} - {str(address.zip_code)}")
+        y -= 12
+
+    # Line separator before items
+    y -= 15
+    pdf.setLineWidth(0.5)
+    pdf.setStrokeColor(colors.HexColor('#CCCCCC'))
+    pdf.line(40, y, width - 40, y)
+
+    # Items Table with Modern Styling
+    y -= 20
     data = [['Product', 'Qty', 'Unit Price', 'Total']]
     for item in items:
-        data.append([item.get('name', ''), str(item.get('qty', 0)),
-                    f"INR {item.get('price', 0)}", f"INR {item.get('total_price', 0)}"])
+        data.append([
+            str(item.get('name', '')),
+            str(item.get('qty', 0)),
+            f"INR {str(item.get('price', 0))}",
+            f"INR {str(item.get('total_price', 0))}"
+        ])
 
-    table = Table(data, colWidths=[230, 60, 90, 90])
+    table = Table(data, colWidths=[220, 50, 90, 110])
     table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
-        ('GRID', (0, 0), (-1, -1), 0.25, colors.grey),
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#00998D')),  # Teal Header
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('ALIGN', (1, 1), (-1, -1), 'CENTER')
+        ('FONTSIZE', (0, 0), (-1, 0), 11),
+        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, 0), 'MIDDLE'),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor('#fafafa')),
+        ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
+        ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 1), (-1, -1), 10),
+        ('ALIGN', (1, 1), (-1, -1), 'CENTER'),
+        ('ALIGN', (0, 1), (0, -1), 'LEFT'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('GRID', (0, 0), (-1, -1), 0.8, colors.HexColor('#e0e0e0')),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#f5f5f5')]),
+        ('LEFTPADDING', (0, 0), (-1, -1), 10),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+        ('TOPPADDING', (0, 0), (-1, -1), 8),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
     ]))
 
     table_width, table_height = table.wrap(0, 0)
     table.drawOn(pdf, 40, y - table_height)
-    y = y - table_height - 30
+    y = y - table_height - 25
 
-    pdf.setFont('Helvetica-Bold', 11)
-    pdf.drawString(320, y, 'Subtotal:')
-    pdf.drawString(420, y, f"INR {order.sub_total}")
-    y -= 15
-    pdf.drawString(320, y, 'Shipping:')
-    pdf.drawString(420, y, f"INR {order.shipping}")
-    y -= 15
-    pdf.drawString(320, y, 'Total:')
-    pdf.drawString(420, y, f"INR {order.total_amount}")
+    # Summary Section with Modern Design
+    pdf.setFillColor(light_gray)
+    pdf.rect(310, y - 80, 200, 75, fill=1, stroke=0)
+    
+    pdf.setLineWidth(2)
+    pdf.setStrokeColor(orange)
+    pdf.rect(310, y - 80, 200, 75, fill=0, stroke=1)
+    
+    pdf.setFont('Helvetica', 10)
+    pdf.setFillColor(dark_gray)
+    
+    summary_y = y - 15
+    pdf.drawString(320, summary_y, 'Subtotal')
+    pdf.setFont('Helvetica-Bold', 10)
+    pdf.setFillColor(teal)
+    pdf.drawString(430, summary_y, f"INR {str(order.sub_total)}")
+    
+    pdf.setFont('Helvetica', 10)
+    pdf.setFillColor(dark_gray)
+    summary_y -= 20
+    pdf.drawString(320, summary_y, 'Shipping')
+    pdf.setFont('Helvetica-Bold', 10)
+    pdf.setFillColor(teal)
+    pdf.drawString(430, summary_y, f"INR {str(order.shipping)}")
+    
+    # Total with Orange Highlight
+    summary_y -= 25
+    pdf.setFont('Helvetica-Bold', 12)
+    pdf.setFillColor(orange)
+    pdf.drawString(320, summary_y, 'TOTAL')
+    pdf.drawString(430, summary_y, f"INR {str(order.total_amount)}")
 
-    # Footer
-    y -= 40
-    pdf.setFont('Helvetica', 9)
-    pdf.drawString(40, y, 'Thank you for your purchase! For any queries, please contact us at support@digitalelectronics.com')
-    pdf.drawString(40, y - 12, 'Visit us: www.digitalelectronics.com')
+    # Footer Section
+    y -= 100
+    pdf.setLineWidth(0.5)
+    pdf.setStrokeColor(colors.HexColor('#CCCCCC'))
+    pdf.line(40, y, width - 40, y)
+    
+    y -= 15
+    pdf.setFont('Helvetica', 8)
+    pdf.setFillColor(dark_gray)
+    footer_text = 'Thank you for your purchase! For assistance, contact support@digitalelectronics.com'
+    pdf.drawString(40, y, footer_text)
+    pdf.drawString(40, y - 10, 'www.digitalelectronics.com | Safe & Secure Transactions')
 
     pdf.showPage()
     pdf.save()
