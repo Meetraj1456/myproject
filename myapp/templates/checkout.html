@@ -354,10 +354,10 @@
                   </div>
 
                   <div class="d-flex justify-content-between align-items-center">
-                     <div class="qty-controls" style="gap: 8px;">
-                        <button class="btn-qty-minus {% if i.qty == 1 %}disabled{% endif %}" data-item-id="{{ i.id }}" {% if i.qty == 1 %}disabled{% endif %} style="background: {% if i.qty == 1 %}#ccc{% else %}#c96{% endif %}; color: #fff; border: none; width: 28px; height: 28px; cursor: {% if i.qty == 1 %}not-allowed{% else %}pointer{% endif %}; border-radius: 3px; font-weight: bold; font-size: 14px;">−</button>
-                        <span class="qty-display" id="mobile-qty-{{ i.id }}" style="min-width: 35px;">{{ i.qty }}</span>
-                        <button class="btn-qty-plus {% if i.qty == 6 %}disabled{% endif %}" data-item-id="{{ i.id }}" {% if i.qty == 6 %}disabled{% endif %} style="background: {% if i.qty == 6 %}#ccc{% else %}#c96{% endif %}; color: #fff; border: none; width: 28px; height: 28px; cursor: {% if i.qty == 6 %}not-allowed{% else %}pointer{% endif %}; border-radius: 3px; font-weight: bold; font-size: 14px;">+</button>
+                     <div class="qty-controls" style="gap: 8px; display: flex; align-items: center;">
+                        <button type="button" class="btn-qty-minus" data-item-id="{{ i.id }}" style="background: {% if i.qty == 1 %}#ccc{% else %}#c96{% endif %}; color: #fff; border: none; width: 35px; height: 35px; cursor: {% if i.qty == 1 %}not-allowed{% else %}pointer{% endif %}; border-radius: 3px; font-weight: bold; font-size: 18px; opacity: {% if i.qty == 1 %}0.5{% else %}1{% endif %};">−</button>
+                        <span class="qty-display" id="mobile-qty-{{ i.id }}" style="min-width: 40px; text-align: center; font-weight: bold; font-size: 16px;">{{ i.qty }}</span>
+                        <button type="button" class="btn-qty-plus" data-item-id="{{ i.id }}" style="background: {% if i.qty == 6 %}#ccc{% else %}#c96{% endif %}; color: #fff; border: none; width: 35px; height: 35px; cursor: {% if i.qty == 6 %}not-allowed{% else %}pointer{% endif %}; border-radius: 3px; font-weight: bold; font-size: 18px; opacity: {% if i.qty == 6 %}0.5{% else %}1{% endif %};">+</button>
                      </div>
                      <strong style="font-size: 1rem;">₹ <span id="mobile-price-{{ i.id }}">{{ i.total_price }}</span></strong>
                   </div>
@@ -434,19 +434,29 @@
    document.addEventListener('click', function(e) {
       if (e.target.classList.contains('btn-qty-plus')) {
          e.preventDefault();
+         e.stopPropagation();
          const itemId = e.target.getAttribute('data-item-id');
-         if (itemId && !e.target.disabled) {
+         const qtyEl = document.getElementById('mobile-qty-' + itemId);
+         const currentQty = parseInt(qtyEl ? qtyEl.textContent : 0);
+         
+         // Allow maximum quantity of 6
+         if (itemId && currentQty < 6) {
             updateQuantityPlus(itemId);
          }
       }
       if (e.target.classList.contains('btn-qty-minus')) {
          e.preventDefault();
+         e.stopPropagation();
          const itemId = e.target.getAttribute('data-item-id');
-         if (itemId && !e.target.disabled) {
+         const qtyEl = document.getElementById('mobile-qty-' + itemId);
+         const currentQty = parseInt(qtyEl ? qtyEl.textContent : 0);
+         
+         // Allow minimum quantity of 1
+         if (itemId && currentQty > 1) {
             updateQuantityMinus(itemId);
          }
       }
-   }, true);
+   }, false);
 
    function updateQuantityPlus(itemId) {
       fetch('{% url "update_qty_plus_ajax" 0 %}'.replace('0', itemId), {
@@ -502,19 +512,31 @@
       if (mobileTotalEl) mobileTotalEl.textContent = '₹ ' + data.total_price;
       if (mobilePriceEl) mobilePriceEl.textContent = data.total_price;
       
-      // Update minus button state
+      // Update minus button state - both desktop and mobile
       const minusBtn = document.querySelector(`.btn-qty-minus[data-item-id="${itemId}"]`);
       if (minusBtn) {
          if (data.qty === 1) {
-            minusBtn.disabled = true;
             minusBtn.style.background = '#ccc';
             minusBtn.style.cursor = 'not-allowed';
-            minusBtn.style.opacity = '0.6';
+            minusBtn.style.opacity = '0.5';
          } else {
-            minusBtn.disabled = false;
             minusBtn.style.background = '#c96';
             minusBtn.style.cursor = 'pointer';
             minusBtn.style.opacity = '1';
+         }
+      }
+      
+      // Update plus button state - both desktop and mobile
+      const plusBtn = document.querySelector(`.btn-qty-plus[data-item-id="${itemId}"]`);
+      if (plusBtn) {
+         if (data.qty === 6) {
+            plusBtn.style.background = '#ccc';
+            plusBtn.style.cursor = 'not-allowed';
+            plusBtn.style.opacity = '0.5';
+         } else {
+            plusBtn.style.background = '#c96';
+            plusBtn.style.cursor = 'pointer';
+            plusBtn.style.opacity = '1';
          }
       }
       
