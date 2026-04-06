@@ -26,12 +26,16 @@
         justify-content: center;
         flex: 1;
         height: 100%;
+        padding: 8px 10px;
         text-decoration: none;
         color: #666;
         font-size: 12px;
         font-weight: 500;
         transition: all 0.3s ease;
         position: relative;
+        cursor: pointer;
+        border: none;
+        background: transparent;
     }
     
     .mobile-nav-item:hover,
