@@ -8,29 +8,36 @@ jQuery(document).ready(function($) {
 		$(this).addClass('active').siblings().removeClass('active');
 	});
 
-	$('.molla-lz').lazyload({
-		effect: 'fadeIn',
-		effect_speed: 400,
-		appearEffect: '',
-		appear: function(elements_left, settings) {
-			
-		},
-		load: function(elements_left, settings) {
-			$(this).removeClass('molla-lz').css('padding-top', '');
-		}
-	});
+	if ($.fn.lazyload) {
+		$('.molla-lz').lazyload({
+			effect: 'fadeIn',
+			effect_speed: 400,
+			appearEffect: '',
+			appear: function(elements_left, settings) {
+				
+			},
+			load: function(elements_left, settings) {
+				$(this).removeClass('molla-lz').css('padding-top', '');
+			}
+		});
+	}
 
 	// Mobile Menu Toggle - Show & Hide
 	$('.mobile-menu-toggler').on('click', function (e) {
+		e.preventDefault();
 		$('body').toggleClass('mmenu-active');
 		$(this).toggleClass('active');
-		e.preventDefault();
 	});
 
 	$('.mobile-menu-overlay, .mobile-menu-close').on('click', function (e) {
-		$('body').removeClass('mmenu-active');
-		$('.menu-toggler').removeClass('active');
 		e.preventDefault();
+		$('body').removeClass('mmenu-active');
+		$('.mobile-menu-toggler').removeClass('active');
+	});
+
+	$('.mobile-menu a').on('click', function() {
+		$('body').removeClass('mmenu-active');
+		$('.mobile-menu-toggler').removeClass('active');
 	});
 
 	$('.goto-demos').on('click', function(e) {

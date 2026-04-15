@@ -39,7 +39,7 @@
     <!-- Mobile Navigation CSS -->
     <link rel="stylesheet" href="{% static 'css/mobile-nav.css' %}">
     <!-- Pages Styling CSS -->
-    <link rel="stylesheet" href="{% static 'css/pages-style.css' %}">>>
+    <link rel="stylesheet" href="{% static 'css/pages-style.css' %}">
     
     <!-- Custom Cart & Wishlist Badge Styles -->
     <style>
@@ -454,6 +454,22 @@
                 width: 40px;
                 height: 40px;
                 font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .mobile-menu-toggler {
+                position: relative;
+                z-index: 1042;
+                padding: 0.6rem;
+                margin-left: 0;
+                margin-right: 0.8rem;
+                touch-action: manipulation;
+            }
+
+            .header-middle .logo {
+                position: relative;
+                z-index: 1;
             }
         }
     </style>
@@ -1469,6 +1485,38 @@
         <!-- FOOTER END -->
         <!-- ============================================ -->
     </div><!-- End .page-wrapper -->
+
+    <div class="mobile-menu-overlay"></div>
+    <div class="mobile-menu-container mobile-menu-light">
+        <div class="mobile-menu-wrapper">
+            <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+            <form action="{% url 'search' %}" method="get" class="mobile-search">
+                <label for="mobile-search" class="sr-only">Search</label>
+                <input type="search" class="form-control" name="q" id="mobile-search" placeholder="Search products..." required>
+                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+            </form>
+
+            <nav class="mobile-nav">
+                <ul class="mobile-menu">
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'category_market' %}">Shop</a></li>
+                    <li><a href="{% url 'blog' %}">Blog</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+                    <li><a href="{% url 'cart' %}">Cart</a></li>
+                    {% if current_user %}
+                    <li><a href="{% url 'dashboard' %}">My Account</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
     
     <!-- Back to Top Button -->
     <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
